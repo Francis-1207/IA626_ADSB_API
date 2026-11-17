@@ -32,41 +32,6 @@ def log(token,endpoint,response):
     cur.execute(sql,(endpoint,token,response,dt))
     conn.commit()
 
-@app.route("/", methods=['GET','POST'])
-def root():
-    res = {}
-    res['code'] = 2
-    res['msg'] = 'No endpoint specified'
-    res['req'] = '/'
-    return json.dumps(res,indent=4)
-    #return '<b>hello</b>'
-
-@app.route("/sum", methods=['GET','POST'])
-def sum():
-    res = {}
-    res['req'] = '/sum'
-    n1 = request.args.get('n1')
-    n2 = request.args.get('n2')
-    n1f = None
-    n2f = None
-    try:
-        n1f = float(n1)
-        n2f = float(n2)
-    except Exception as e:
-        print(str(e))
-        pass
-    if n1f is not None and n2f is not None:
-        res['sum'] = n1f + n2f
-        res['code'] = 2
-        res['msg'] = 'ok'
-    else:
-        res['sum'] = None
-        res['code'] = 1
-        res['msg'] = 'n1 and n2 must be numeric'
-        log(request.args.get('key'),res['req'],'429')
-    log(request.args.get('key'),res['req'],'200')
-    return json.dumps(res,indent=4)
-
 @app.route("/getData", methods=['GET'])
 def getData():
     res = {}
